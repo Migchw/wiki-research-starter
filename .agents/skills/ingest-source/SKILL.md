@@ -1,7 +1,7 @@
 ---
 name: ingest-source
 description: อ่านเอกสารบริษัทหรือคลิป (56-1 One Report, 10-K, 10-Q, MD&A, transcript ของ earnings call / opportunity day) แล้วเขียน 3 ชิ้น: source note ใน sources/ พร้อมที่มาทุกข้อ (หน้า · หัวข้อ · นาที) · บทความอธิบายแบบอ่านเข้าใจใน articles/ · อัปเดตหน้าบริษัทใน companies/ ใช้เมื่อผู้ใช้สั่ง /ingest-source หรือขอ "ingest 56-1", "สรุป 10-K เข้า wiki"
-argument-hint: <source-id> เช่น delta-56-1-2025 | nflx-10k-2025 | nflx-earnings-interview-2026q3
+argument-hint: [source-id] เช่น delta-56-1-2025 | nflx-10k-2025 (ไม่ใส่ = ดูคิวใน source-list.md)
 ---
 <!-- สร้างจาก .claude/skills/ingest-source/SKILL.md ด้วย scripts/sync_skills.py ห้ามแก้ไฟล์นี้ตรงๆ ให้แก้ต้นฉบับแล้วรันสคริปต์ใหม่ -->
 
@@ -11,8 +11,12 @@ argument-hint: <source-id> เช่น delta-56-1-2025 | nflx-10k-2025 | nflx-e
 
 อ่าน `AGENTS.md` ก่อน กติกาข้อ 1, 2, 6, 7 และ 9 ใช้กับ skill นี้ทุกข้อ
 
-## 0. เตรียมต้นฉบับ
-- ต้นฉบับอยู่ใน `raw/sources/<source-id>.<pdf|htm|txt|vtt>` (gitignored) ถ้าไม่มี ให้บอกผู้ใช้ว่าต้องโหลดจากไหน แล้วหยุด
+## 0. ไม่ใส่ source-id = ดูคิว
+ถ้า argument ที่ผู้ใช้พิมพ์ต่อจากชื่อ skill ว่าง ให้อ่าน `source-list.md` แล้วแสดงแถวที่ status เป็น `downloaded` (พร้อมอ่าน) และ `found` (ยังไม่มีไฟล์)
+เรียงตามวันที่เผยแพร่ใหม่ไปเก่า แล้วถามผู้ใช้ว่าจะ ingest ชิ้นไหน ถ้าคิวว่างให้แนะนำ `/find-source <ticker>`
+
+## 0.1 เตรียมต้นฉบับ
+- ต้นฉบับอยู่ใน `raw/sources/<source-id>.<pdf|htm|txt|vtt>` (gitignored) ถ้าไม่มี ให้แนะนำ `/find-source` แล้วหยุด
   - 10-K / 10-Q: SEC EDGAR (`sec.gov/cgi-bin/browse-edgar`) · 56-1 One Report: เว็บนักลงทุนสัมพันธ์ของบริษัท หรือ SEC ไทย
   - shareholder letter (`doc_type: shareholder-letter`): เว็บ IR ของบริษัท เช่น Netflix
     `s22.q4cdn.com/959853165/files/doc_financials/<ปี>/q<n>/FINAL-Q<n>-<yy>-Shareholder-Letter.pdf` · ตารางสรุปรายไตรมาสในจดหมายผ่าน validator ตามข้อ 0.5
@@ -78,3 +82,4 @@ source note มีไว้ตรวจ บทความมีไว้อ่�
 - `python scripts/wiki_lint.py` ต้อง PASS
 - สุ่ม 3 claim ที่มีตัวเลขใน source note และ 3 ข้อที่เฉพาะที่สุดในบทความ แล้ว grep ตัวเลขนั้นใน `.source.txt` ให้เจอใน locator ที่อ้าง รายงานผลให้ผู้ใช้
 - `git status` ต้องไม่มีไฟล์ใน `raw/sources/`
+- แก้แถวของ source นี้ใน `source-list.md` เป็น `ingested` (ถ้ายังไม่มีแถว ให้เพิ่ม) แล้วบอกผู้ใช้ว่าในคิวเหลืออะไรบ้าง

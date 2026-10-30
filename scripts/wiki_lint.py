@@ -34,7 +34,7 @@ REQUIRED = {
     "concept": ["title"],
     "hypothesis": ["id", "status", "source_papers", "signal", "universe", "in_sample",
                    "out_of_sample", "expected_sign", "kill_criteria"],
-    "experiment": ["id", "hypothesis", "trial_no", "code_ref", "lookback", "costs_bps",
+    "experiment": ["id", "hypothesis", "trial_no", "code_ref", "costs_bps",
                    "sample", "known_biases", "reviewer_verdict"],
     "factor": ["id", "hypothesis", "definition", "evidence"],
 }
@@ -53,7 +53,7 @@ ENUMS = {
 }
 
 # Fields that must be filled once a hypothesis leaves the "idea" stage.
-PREREG = ["signal", "universe", "in_sample", "out_of_sample", "expected_sign", "kill_criteria"]
+PREREG = ["signal", "universe", "in_sample", "out_of_sample", "expected_sign", "kill_criteria", "test_script"]
 METRICS = ["sharpe", "ann_return", "t_stat", "max_dd"]
 
 WIKILINK = re.compile(r"\[\[([^\]|#]+)(?:#[^\]|]*)?(?:\|[^\]]*)?\]\]")
@@ -125,6 +125,9 @@ def lint(vault: Path) -> list[str]:
                 for key in PREREG:
                     if empty(meta.get(key)):
                         errors.append(f"{rel}: status '{status}' ต้อง pre-register '{key}' ก่อน")
+                script = meta.get("test_script")
+                if not empty(script) and not (vault / str(script)).is_file():
+                    errors.append(f"{rel}: test_script '{script}' ไม่มีไฟล์อยู่จริง")
             if status == "rejected" and empty(meta.get("rejected_reason")):
                 errors.append(f"{rel}: ส่งเข้า graveyard ต้องมี rejected_reason")
 

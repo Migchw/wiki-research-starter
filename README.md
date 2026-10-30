@@ -14,7 +14,7 @@ pip install -r requirements.txt
 cd dashboard && npm install && npm run dev            # เปิด URL ที่ขึ้นมา
 ```
 
-แล้วเปิด `claude` ที่ root ของโฟลเดอร์ พิมพ์ `/` ต้องเห็น skill ทั้ง 6 ตัว
+แล้วเปิด `claude` ที่ root ของโฟลเดอร์ พิมพ์ `/` ต้องเห็น skill ทั้ง 7 ตัว
 
 คู่มือว่าแต่ละ skill ทำอะไร รันแล้วได้อะไร และ dashboard ทำงานอย่างไร อยู่ใน [GUIDE.html](GUIDE.html) (เปิดในเบราว์เซอร์)
 
@@ -23,7 +23,8 @@ cd dashboard && npm install && npm run dev            # เปิด URL ที�
 | ชิ้น | ที่อยู่ |
 |---|---|
 | กติกาที่ agent ทุกตัวอ่าน | `AGENTS.md` · `CLAUDE.md` |
-| skill 6 ตัว | `.claude/skills/` (find-paper, ingest-paper, ingest-source, ask-wiki, log-experiment, wiki-lint) |
+| skill 7 ตัว | `.claude/skills/` (find-paper, find-source, ingest-paper, ingest-source, ask-wiki, log-experiment, wiki-lint) |
+| คิวเอกสาร | `reading-list.md` (paper) · `source-list.md` (เอกสารบริษัทและคลิป) |
 | subagent ตรวจ experiment | `.claude/agents/reviewer.md` |
 | hook lint ทุกครั้งที่เขียน .md | `.claude/settings.json` → `scripts/lint_hook.py` |
 | skill สำหรับ agent อื่น | `.agents/skills/` (สร้างจาก `python scripts/sync_skills.py` ห้ามแก้ตรง) |

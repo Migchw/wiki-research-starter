@@ -9,6 +9,7 @@ in_sample: ""
 out_of_sample: ""
 expected_sign: ""
 kill_criteria: ""
+test_script: ""
 rejected_reason: ""
 tags: [hypothesis]
 created: {{date}}
@@ -24,6 +25,7 @@ created: {{date}}
 - In-sample / Out-of-sample:
 - Expected sign:
 - Kill criteria:
+- Test script: (สคริปต์ที่ใช้ทดสอบ เลือกหรือเขียนก่อน trial แรก ห้ามเปลี่ยนหลังเห็นผล)
 
 ## Experiments
 <!-- ลิงก์ไปยัง experiments/ ทุกครั้งที่รัน -->
