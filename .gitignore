@@ -1,0 +1,26 @@
+# ลิขสิทธิ์: ห้าม commit full-text / PDF ของ paper
+*.pdf
+raw/**/fulltext*
+raw/pdf/
+# ข้อความเต็มของ filing / transcript / ไฟล์เสียง
+raw/sources/
+*.mp3
+# ข้อมูลราคา: ดาวน์โหลดตอนรัน ห้าม commit
+data/
+.cache/
+*.csv
+*.parquet
+# Python / Node
+__pycache__/
+.venv/
+venv/
+node_modules/
+.next/
+dashboard/data/index*.json
+# Obsidian (เก็บเฉพาะ config ที่แชร์ได้)
+.obsidian/workspace*.json
+.obsidian/cache
+.env
+
+# ภาพที่ดึงจากเอกสาร (กราฟ ตาราง สไลด์): เก็บในเครื่องเท่านั้น ไม่ commit
+assets/

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>wiki-research-starter คู่มือ</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans+Thai:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+:root {
+  /* layout: one reading column; each part opens with a header band, steps stack as numbered blocks with the prompt underneath */
+  --bg: #f5f6f3;
+  --surface: #ffffff;
+  --ink: #1d2a2e;
+  --muted: #5d6b6f;
+  --line: #d9ddd6;
+  --accent: #1f6f6b;
+  --accent-soft: #e2efed;
+  --warn: #8a5a00;
+  --warn-soft: #fbf0d6;
+  --new: #7a3e9d;
+  --new-soft: #f1e6f7;
+  --code-bg: #eef0ec;
+  --display: "IBM Plex Sans Thai", "Leelawadee UI", "Noto Sans Thai", sans-serif;
+  --body: "IBM Plex Sans Thai", "Leelawadee UI", "Noto Sans Thai", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141a1b; --surface: #1c2425; --ink: #e4ebe9; --muted: #9aa8a6; --line: #2f3a3b;
+    --accent: #6cc4bc; --accent-soft: #1e3534; --warn: #e8bf6a; --warn-soft: #382d16;
+    --new: #cfa3e6; --new-soft: #33233d; --code-bg: #161d1e; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #141a1b; --surface: #1c2425; --ink: #e4ebe9; --muted: #9aa8a6; --line: #2f3a3b;
+  --accent: #6cc4bc; --accent-soft: #1e3534; --warn: #e8bf6a; --warn-soft: #382d16;
+  --new: #cfa3e6; --new-soft: #33233d; --code-bg: #161d1e; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.65 var(--body); }
+.wrap { max-width: 920px; margin: 0 auto; padding: 40px 20px 80px; display: grid; gap: 40px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; line-height: 1.3; }
+h1 { font-size: 34px; font-weight: 700; }
+h2 { font-size: 24px; font-weight: 700; }
+h3 { font-size: 18px; font-weight: 600; }
+code, pre { font-family: var(--mono); font-size: 13.5px; }
+.intro { display: grid; gap: 12px; }
+.intro .kicker { color: var(--accent); font-weight: 600; font-size: 14px; }
+.intro p { margin: 0; max-width: 65ch; color: var(--muted); }
+.how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.how div { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; font-size: 14px; }
+.how b { display: block; color: var(--accent); }
+.term { background: var(--warn-soft); border-left: 4px solid var(--warn); border-radius: 6px; padding: 14px 16px; display: grid; gap: 6px; }
+.term p { margin: 0; max-width: 70ch; }
+.term b { color: var(--warn); }
+nav.parts { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; }
+nav.parts a { display: grid; gap: 2px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; color: var(--ink); text-decoration: none; font-size: 14px; }
+nav.parts a:hover, nav.parts a:focus-visible { border-color: var(--accent); outline: none; }
+nav.parts .ep, .part-head .ep { color: var(--accent); font-size: 12.5px; font-weight: 600; }
+nav.parts .rng { color: var(--muted); font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.part { display: grid; gap: 16px; }
+.part-head { border-top: 3px solid var(--accent); padding-top: 14px; display: grid; gap: 4px; }
+.part-head p { margin: 0; color: var(--muted); }
+.step { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; display: grid; gap: 14px; }
+.step-head { display: flex; gap: 14px; align-items: flex-start; }
+.num { flex: none; width: 36px; height: 36px; border-radius: 50%; background: var(--accent); color: var(--surface); display: grid; place-items: center; font-weight: 700; font-variant-numeric: tabular-nums; }
+.step-title { display: grid; gap: 6px; min-width: 0; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px; }
+.pill { font-size: 12px; padding: 1px 8px; border-radius: 99px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+.pill-p { font-family: var(--mono); background: var(--accent-soft); color: var(--accent); border-color: transparent; font-weight: 500; }
+.pill-live { color: var(--accent); border-color: var(--accent); }
+.pill-draft { background: var(--warn-soft); color: var(--warn); border-color: transparent; }
+.pill-new { background: var(--new-soft); color: var(--new); border-color: transparent; font-weight: 600; }
+.grid3 { display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 14px; margin: 0; }
+.grid3 dt { font-size: 12.5px; font-weight: 600; color: var(--muted); margin-bottom: 2px; }
+.grid3 dd { margin: 0; font-size: 14.5px; }
+.got dd ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; }
+.got code { background: var(--accent-soft); color: var(--ink); padding: 1px 6px; border-radius: 4px; overflow-wrap: anywhere; font-size: 12.5px; }
+.check, .restart, .ckpt { margin: 0; font-size: 14px; }
+.check b { color: var(--accent); margin-right: 6px; }
+.restart { background: var(--warn-soft); color: var(--warn); padding: 6px 10px; border-radius: 6px; font-weight: 500; }
+.ckpt { color: var(--muted); padding-left: 4px; }
+.ckpt code { overflow-wrap: anywhere; }
+.prompt { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.prompt-bar { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; background: var(--code-bg); border-bottom: 1px solid var(--line); font-size: 12.5px; color: var(--muted); font-family: var(--mono); }
+.copy { font: 600 13px var(--body); padding: 3px 12px; border-radius: 6px; border: 1px solid var(--accent); background: var(--surface); color: var(--accent); cursor: pointer; }
+.copy:hover { background: var(--accent-soft); }
+.copy:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.prompt pre { margin: 0; padding: 12px 14px; max-height: 220px; overflow: auto; white-space: pre-wrap; word-break: break-word; background: var(--code-bg); line-height: 1.6; }
+.skip { background: var(--surface); border: 1px dashed var(--line); border-radius: 8px; padding: 14px 16px; font-size: 14px; color: var(--muted); }
+.skip p { margin: 0; }
+@media (max-width: 720px) {
+  .grid3, .how { grid-template-columns: 1fr; }
+  h1 { font-size: 28px; }
+}
+table{width:100%;border-collapse:collapse;font-size:14.5px;background:var(--surface);border:1px solid var(--line)}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font-size:12.5px;color:var(--muted);background:var(--code-bg)}
+td code,li code,.sec p code{background:var(--accent-soft);padding:1px 6px;border-radius:4px;font-size:12.5px;overflow-wrap:anywhere}
+.tbl{overflow-x:auto;border-radius:10px}
+.sec{display:grid;gap:14px}.sec>p{margin:0;max-width:70ch}
+ol.flow{margin:0;padding-left:22px;display:grid;gap:6px}
+</style></head><body><main class="wrap">
+<header class="intro"><span class="kicker">wiki-research-starter · คู่มือ</span><h1>ใช้งาน starter นี้อย่างไร</h1>
+<p>โฟลเดอร์นี้มีกติกา skill agent hook script แม่แบบ และ dashboard ครบแล้ว แต่ยังไม่มีเนื้อหา งานของเราคือสั่ง agent ให้อ่านเอกสาร แล้วดูความรู้สะสมขึ้นใน Obsidian และ dashboard</p></header>
+<section class="sec"><h2>1 · ติดตั้ง</h2><div class="prompt"><pre>git clone https://github.com/Migchw/wiki-research-starter my-research-wiki
+cd my-research-wiki
+python -m venv .venv &amp;&amp; .venv\Scripts\activate
+pip install -r requirements.txt
+cd dashboard &amp;&amp; npm install &amp;&amp; npm run dev
+# อีกหน้าต่าง: เปิด claude ที่ root แล้วพิมพ์ /  ต้องเห็น skill 6 ตัว</pre></div>
+<p>เปิดโฟลเดอร์ด้วย Obsidian (Open folder as vault) ได้เลย ไฟล์ทุกอย่างเป็น .md ธรรมดา</p></section>
+<section class="sec"><h2>2 · ลำดับที่แนะนำ</h2><ol class="flow">
+<li><code>/find-paper "Jegadeesh Titman 1993 returns to buying winners and selling losers"</code> ตรวจว่ามีจริง แล้ววาง PDF ที่ raw/pdf/</li>
+<li><code>/ingest-paper jegadeesh-titman-1993</code> แล้ว refresh dashboard จะเห็นการ์ด paper ใบแรก</li>
+<li>วาง 10-Q หรือ 56-1 ไว้ใน raw/sources/ แล้วรัน <code>/ingest-source nflx-10q-2026q3</code> ได้หน้าบริษัทและบทความ</li>
+<li><code>/ask-wiki</code> ถาม 2 ข้อ: ข้อที่ vault ตอบได้ และข้อที่ vault ไม่มี ซึ่งต้องตอบว่าไม่มี</li>
+<li>อ่าน Novy-Marx 2012 ด้วย skill เดิม แล้วสั่งจดสมมติฐาน H-001 จาก templates/Hypothesis.md (status: preregistered พร้อม kill criteria) ก่อนทดสอบ</li>
+<li><code>/log-experiment H-001 12-7 in_sample</code> รัน backtest บน SET100 แล้ว reviewer ตรวจ</li>
+<li>เปิด dashboard ดูภาพรวม: อ่านอะไรไปแล้ว ไอเดียทำถึงไหน และแผนที่ความรู้</li></ol>
+<p class="restart">ถ้าแก้หรือเพิ่มไฟล์ใน .claude/ ต้อง /exit แล้วเปิด claude ใหม่ skill และ hook ถึงจะโหลด</p></section>
+<section class="sec"><h2>3 · skill agent และ hook</h2><div class="tbl"><table><tr><th>ชิ้น · วิธีเรียก</th><th>ทำอะไร</th><th>ได้ไฟล์อะไร</th><th>ไปโผล่ใน dashboard</th><th>ทำไมต้องมี</th></tr><tr><td><code>/find-paper</code><br><small>&lt;ชื่อ paper | DOI&gt;</small></td><td>ตรวจว่า paper มีจริงและ metadata ถูก (Crossref + OpenAlex) แล้วหาฉบับที่อ่านได้ฟรี</td><td>reading-list.md · raw/pdf/&lt;citekey&gt;.pdf (ไม่เข้า git)</td><td>-</td><td>LLM แต่งชื่อ ปี และ DOI ได้ ต้องตรวจก่อนเสียเวลาอ่าน</td></tr><tr><td><code>/ingest-paper</code><br><small>&lt;citekey&gt;</small></td><td>อ่าน PDF ทั้งเล่ม เขียนแก่นของ paper พร้อมเลขหน้า และบทความอ่านง่าย</td><td>papers/&lt;citekey&gt;.md · articles/&lt;citekey&gt;-explained.md · concepts/</td><td>การ์ด Paper + บทความ</td><td>อ่าน paper ยากครั้งเดียวแล้วใช้ซ้ำทุก session</td></tr><tr><td><code>/ingest-source</code><br><small>&lt;source-id&gt;</small></td><td>อ่าน 56-1 / 10-K / 10-Q / MD&amp;A / transcript เฉพาะส่วนสำคัญ</td><td>sources/&lt;id&gt;.md · companies/&lt;TICKER&gt;.md · articles/&lt;id&gt;-explained.md</td><td>การ์ดเอกสารบริษัท + บทความ</td><td>เอกสารยาวเกิน context ต้องแปลงเป็นข้อความที่มีป้ายหน้าหรือ Item ก่อน</td></tr><tr><td><code>/ask-wiki</code><br><small>&lt;คำถาม&gt;</small></td><td>ตอบจาก vault เท่านั้น ทุกข้อมีลิงก์และที่มา ถ้าไม่มีให้บอกว่าไม่มี</td><td>คำตอบในแชท · articles/&lt;slug&gt;.md ถ้าเลือกเก็บ</td><td>การ์ดบทความ (ถ้าเก็บ)</td><td>ถามจากสิ่งที่อ่านแล้ว ไม่ใช่จากความจำของโมเดล</td></tr><tr><td><code>/log-experiment</code><br><small>&lt;H-xxx&gt; &lt;12-1|12-7&gt; [in_sample|out_of_sample]</small></td><td>รัน backtest 1 ครั้ง = 1 trial แล้วให้ reviewer ตรวจ</td><td>experiments/E-xxx.md · hypothesis อัปเดตผล</td><td>การ์ด Hypothesis</td><td>กันการรันซ้ำจนเจอผลที่ชอบ</td></tr><tr><td><code>/wiki-lint</code><br><small></small></td><td>รัน wiki_lint.py แล้วแก้เฉพาะโครงสร้าง</td><td>ไฟล์ที่ field ครบ ลิงก์ไม่เสีย</td><td>-</td><td>ห้ามแก้ตัวเลขหรือ kill criteria เพื่อให้ผ่าน</td></tr><tr><td><code>reviewer (agent)</code><br><small>เรียกโดย /log-experiment</small></td><td>ตรวจ look-ahead, survivorship, trial count, data snooping</td><td>reviewer_verdict ใน experiment</td><td>สถานะใน Hypothesis</td><td>คนตรวจที่ไม่ได้เห็นงานมาก่อน มี context แยก</td></tr><tr><td><code>hook</code><br><small>ทำงานเอง</small></td><td>ทุกครั้งที่ agent เขียน .md จะรัน lint ถ้าไม่ผ่าน agent ต้องแก้</td><td>-</td><td>-</td><td>บังคับทุกครั้งโดยไม่ต้องหวังว่าโมเดลจะจำ</td></tr></table></div></section>
+<section class="sec"><h2>4 · script</h2><p>งานที่ต้องอ่าน ตีความ หรือเขียน ให้ agent ทำ ส่วนงานที่ต้องนับ คำนวณ ตรวจ หรือแปลงไฟล์ ให้ script ทำ เพราะได้ผลเหมือนเดิมทุกครั้งและไม่เสีย token</p><div class="tbl"><table><tr><th>ไฟล์</th><th>ทำอะไร</th><th>รันอย่างไร</th></tr><tr><td><code>wiki_lint.py</code></td><td>ตรวจ frontmatter ลิงก์ pre-registration และ trial ซ้ำ</td><td><code>python scripts/wiki_lint.py</code></td></tr><tr><td><code>source_to_text.py</code></td><td>PDF / HTML ของ SEC → ข้อความที่มีป้ายหน้าและ Item</td><td><code>skill ingest-source เรียกเอง</code></td></tr><tr><td><code>extract_pdf.py</code></td><td>PDF ของ paper → ข้อความที่มีป้ายหน้า</td><td><code>python scripts/extract_pdf.py --help</code></td></tr><tr><td><code>crop_figure.py</code></td><td>ตัดรูปกราฟจากหน้า PDF ไปที่ assets/ (ไม่เข้า git)</td><td><code>python scripts/crop_figure.py &lt;pdf&gt; &lt;page&gt; &lt;out.png&gt;</code></td></tr><tr><td><code>validate_facts.py</code></td><td>ตรวจว่าตัวเลขใน facts/*.json อยู่บนหน้าที่อ้างจริงและบวกลบลงตัว</td><td><code>python scripts/validate_facts.py --help</code></td></tr><tr><td><code>backtest_momentum.py</code></td><td>backtest momentum 12-1 / 12-7 บน SET100 แล้วเขียน experiment</td><td><code>python scripts/backtest_momentum.py --hypothesis H-001 --lookback 12-7 --dry-run</code></td></tr><tr><td><code>set100.txt</code></td><td>รายชื่อหุ้น SET100 ที่ backtest ใช้</td><td><code>แก้รายชื่อได้ตามต้องการ</code></td></tr><tr><td><code>sync_skills.py</code></td><td>สร้าง .agents/skills/ จาก .claude/ ให้ agent อื่นใช้</td><td><code>python scripts/sync_skills.py</code></td></tr><tr><td><code>paper_feed.py</code></td><td>ดึง paper ใหม่มาเป็นไอเดีย (ไม่บังคับ)</td><td><code>python scripts/paper_feed.py --help</code></td></tr></table></div></section>
+<section class="sec"><h2>5 · dashboard ทำงานอย่างไร</h2>
+<p><code>npm run dev</code> รัน <code>dashboard/scripts/build-index.mjs</code> ก่อน สคริปต์นี้อ่าน frontmatter ของ papers/ sources/ articles/ hypotheses/ experiments/ .claude/skills/ และ atoms/ แล้วเขียน <code>dashboard/public/index.json</code> หน้าเว็บอ่านจากไฟล์นั้นอย่างเดียว ไม่แก้ไฟล์ใน vault</p>
+<p>หลัง ingest เอกสารใหม่ ให้รัน <code>npm run index</code> แล้ว refresh หน้า ตอน vault ยังว่างจะเห็นแค่การ์ดสกิล ซึ่งเป็นสภาพปกติ</p>
+<p>มีมุมมอง 3 แบบ คือ การ์ด รายการ และแผนที่ (จาก atoms/) กดการ์ดแล้วรายละเอียดเลื่อนออกมาจากด้านขวา ปุ่มคัดลอกคำสั่งในการ์ดสกิลเอาไปวางใน agent การแก้ทุกอย่างจึงผ่าน skill lint และ hook เสมอ</p></section>
+<section class="sec"><h2>6 · ใช้กับ agent อื่น</h2><p>AGENTS.md คือกติกาที่ agent ทุกตัวอ่าน ส่วน <code>.agents/skills/</code> คือ skill ชุดเดียวกันสำหรับ agent ที่ไม่ใช่ Claude Code ให้แก้ skill ที่ .claude/ เท่านั้น แล้วรัน <code>python scripts/sync_skills.py</code></p></section>
+</main></body></html>
