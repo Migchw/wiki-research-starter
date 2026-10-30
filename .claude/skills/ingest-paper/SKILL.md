@@ -65,6 +65,25 @@ Argument: `$ARGUMENTS` · มาตรฐานตัวอย่าง: `papers
 - hypothesis ที่เกี่ยวข้อง: แก้ได้เฉพาะส่วน `## ทำไมถึงคิดว่าน่าจะใช้ได้ (กลไก)` หรือเพิ่มบรรทัดหมายเหตุ
   **ห้ามแตะส่วน Pre-registration และ `kill_criteria`** ถ้า paper ใหม่ทำให้อยากเปลี่ยน signal ให้เสนอเป็น hypothesis ใหม่ (`status: idea`)
 
+## 4.5. แก่นของเอกสาร → `atoms/<id>.json` (ใช้วาดแผนที่ใน dashboard)
+หลังเขียน source note แล้ว ให้เขียน `atoms/<id>.json` (`<id>` = citekey):
+```json
+{ "source": "<id>", "made_by": "<agent> · <วันที่>",
+  "atoms": [ { "claim": 1, "label": "ข้อความสั้นไม่เกิน 40 ตัวอักษร", "concepts": ["concept-id"] } ],
+  "edges": [ { "from": 1, "to": "<id อื่น>#3", "rel": "supports", "reason": "เชื่อมเพราะอะไร หนึ่งบรรทัด" } ] }
+```
+- `claim` คือเลขแถวใน claim table ของ source note (ต้องมีแถวนั้นจริง) ข้อความเต็มและที่มา dashboard อ่านจาก claim table เอง ไม่ต้องคัดลอก
+- `from` / `to` เป็นเลข claim ในเอกสารนี้ · `"<id อื่น>#<เลข>"` · หรือ id ของ hypothesis
+- `rel` ใช้ได้แค่: `supports` · `differs` · `contradicts` · `explains` · `questions` · `updates` · `leads-to`
+- เชื่อมเฉพาะที่อ่านแล้วเห็นจริงในเอกสารทั้งสองชิ้น ถ้าไม่แน่ใจไม่ต้องใส่ · ตัวเลขต่างกันให้เขียนทั้งสองค่าใน `reason`
+- concept ใหม่เพิ่มใน `atoms/_concepts.json` (`"concept-id": "ชื่อภาษาไทย"`) ใช้ id เดิมถ้ามีแล้ว
+- ตรวจด้วย `cd dashboard && npm run index` ต้องไม่มีบรรทัด `atoms ไม่ผ่าน`
+
+## 4.6. เสนอไอเดียวิจัยต่อ
+ท้ายงาน เสนอไอเดีย 1–3 ข้อจากสิ่งที่เพิ่งอ่าน แต่ละข้อมีคำถามวิจัย ที่มา (claim ไหน) และทำไมน่าสนใจ แล้ว **ถามผู้ใช้ก่อน** ว่าจะเก็บข้อไหน
+ข้อที่เก็บเขียนเป็น `hypotheses/H-xxx.md` จาก `templates/Hypothesis.md` ด้วย `status: idea` (id ถัดไป) ใส่ `source_papers` หรือลิงก์เอกสาร
+และหัวข้อ "ขั้นต่อไป" เป็น checklist `- [ ]` ยังไม่ต้องเติม signal หรือ kill criteria (เติมตอนจดสมมติฐานก่อนทดสอบ)
+
 ## 5. ตรวจและรายงาน
 1. `python scripts/wiki_lint.py` ต้อง PASS
 2. `git status --short` ต้องไม่มีไฟล์ใน `raw/pdf/` หรือ `.txt` ของข้อความเต็ม

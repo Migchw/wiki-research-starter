@@ -12,7 +12,7 @@ vault นี้คือ **หน่วยความจำของกระ�
    ข้อความเต็มของ filing และ transcript ก็เก็บใน `raw/` เท่านั้น (gitignored)
 2. **LLM ไม่ใช่เครื่องคิดเลข**: ตัวเลขผล backtest ต้องมาจากสคริปต์ใน `scripts/` เท่านั้น ห้ามเขียนตัวเลขเองหรือประมาณ
    ตัวเลขจากเอกสารต้องคัดตามที่พิมพ์พร้อมที่มา ถ้าจะคำนวณต่อ (อัตราส่วน การเติบโต) ให้สคริปต์คำนวณ
-3. **Pre-register ก่อนทดสอบ**: hypothesis ต้องมี `signal`, `in_sample`, `out_of_sample`, `expected_sign`, `kill_criteria`
+3. **Pre-register ก่อนทดสอบ**: hypothesis ต้องมี `signal`, `in_sample`, `out_of_sample`, `expected_sign`, `kill_criteria`, `test_script`
    และ `status: preregistered` ก่อนรัน experiment แรก ห้ามแก้ kill_criteria หลังเห็นผล
 4. **ทุกการรันคือ 1 trial**: ทุก experiment ต้องมีไฟล์ใน `experiments/` แม้ผลจะแย่ ห้ามลบ experiment ที่ล้มเหลว
 5. **Graveyard เป็นสถานะ**: hypothesis ที่ไม่รอดให้ตั้ง `status: rejected` พร้อม `rejected_reason` ห้ามลบไฟล์
@@ -54,6 +54,7 @@ vault นี้คือ **หน่วยความจำของกระ�
 ไฟล์ใน `.claude/skills/*/SKILL.md` เป็น Markdown ธรรมดา agent ตัวไหนก็อ่านแล้วทำตามได้ (Claude Code เรียกเป็น `/ชื่อ`)
 สำเนาสำหรับ agent อื่น (เช่น Antigravity CLI) อยู่ที่ `.agents/skills/` สร้างด้วย `python scripts/sync_skills.py` ห้ามแก้ตรงๆ
 - `find-paper` ตรวจว่า paper มีจริงและ metadata ถูก หาฉบับที่อ่านได้ฟรี และตรวจว่าไฟล์คือต้นฉบับ ไม่ใช่สรุปจาก AI
+- `find-source` กวาดหาเอกสารบริษัทจากชื่อหุ้นหรือคลิปจากลิงก์ YouTube เก็บไว้ใน `raw/sources/` และจดคิวใน `source-list.md`
 - `ingest-paper` อ่านต้นฉบับแล้วเขียน source note (claim table + เลขหน้า) และบทความอธิบาย
 - `ingest-source` อ่านเอกสารบริษัทหรือ transcript แล้วเขียน source note ใน `sources/` บทความอธิบาย และอัปเดตหน้าบริษัทใน `companies/`
 - `ask-wiki` ตอบคำถามจาก vault เท่านั้น ทุกประโยคมีลิงก์ source + ที่มา ถ้า vault ไม่มีคำตอบให้บอกว่าไม่มี

@@ -27,7 +27,7 @@ cd dashboard && npm install && npm run dev            # เปิด URL ที�
 | คิวเอกสาร | `reading-list.md` (paper) · `source-list.md` (เอกสารบริษัทและคลิป) |
 | subagent ตรวจ experiment | `.claude/agents/reviewer.md` |
 | hook lint ทุกครั้งที่เขียน .md | `.claude/settings.json` → `scripts/lint_hook.py` |
-| skill สำหรับ agent อื่น | `.agents/skills/` (สร้างจาก `python scripts/sync_skills.py` ห้ามแก้ตรง) |
+| skill สำหรับ agent อื่น | ยังไม่มีใน repo สร้างเองด้วย `python scripts/sync_skills.py` ได้ `.agents/skills/` (ห้ามแก้ตรง) |
 | แม่แบบโน้ต | `templates/` |
 | สคริปต์ | `scripts/` (lint, แปลงเอกสาร, ตัดรูป, ตรวจตัวเลข, backtest, sync) |
 | รายชื่อหุ้น SET100 | `scripts/set100.txt` |

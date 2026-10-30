@@ -19,6 +19,9 @@ created: {{date}}
 
 ## ทำไมถึงคิดว่าน่าจะใช้ได้ (กลไก)
 
+## ขั้นต่อไป
+- [ ] 
+
 ## Pre-registration (เขียนก่อนรัน experiment แรก ห้ามแก้หลังเห็นผล)
 - Signal:
 - Universe:

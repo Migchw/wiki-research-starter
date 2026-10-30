@@ -77,6 +77,25 @@ source note มีไว้ตรวจ บทความมีไว้อ่�
   จากตัวเลขที่คัดแล้ว พร้อมหน้าที่มา ตัวอย่างใน `articles/delta-56-1-2025-explained.md`
 - ลิงก์บทความจากหน้าบริษัท (หัวข้อ "Sources") และปิดท้ายบทความด้วย "เพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน"
 
+## 4.5. แก่นของเอกสาร → `atoms/<id>.json` (ใช้วาดแผนที่ใน dashboard)
+หลังเขียน source note แล้ว ให้เขียน `atoms/<id>.json` (`<id>` = source-id):
+```json
+{ "source": "<id>", "made_by": "<agent> · <วันที่>",
+  "atoms": [ { "claim": 1, "label": "ข้อความสั้นไม่เกิน 40 ตัวอักษร", "concepts": ["concept-id"] } ],
+  "edges": [ { "from": 1, "to": "<id อื่น>#3", "rel": "supports", "reason": "เชื่อมเพราะอะไร หนึ่งบรรทัด" } ] }
+```
+- `claim` คือเลขแถวใน claim table ของ source note (ต้องมีแถวนั้นจริง) ข้อความเต็มและที่มา dashboard อ่านจาก claim table เอง ไม่ต้องคัดลอก
+- `from` / `to` เป็นเลข claim ในเอกสารนี้ · `"<id อื่น>#<เลข>"` · หรือ id ของ hypothesis
+- `rel` ใช้ได้แค่: `supports` · `differs` · `contradicts` · `explains` · `questions` · `updates` · `leads-to`
+- เชื่อมเฉพาะที่อ่านแล้วเห็นจริงในเอกสารทั้งสองชิ้น ถ้าไม่แน่ใจไม่ต้องใส่ · ตัวเลขต่างกันให้เขียนทั้งสองค่าใน `reason`
+- concept ใหม่เพิ่มใน `atoms/_concepts.json` (`"concept-id": "ชื่อภาษาไทย"`) ใช้ id เดิมถ้ามีแล้ว
+- ตรวจด้วย `cd dashboard && npm run index` ต้องไม่มีบรรทัด `atoms ไม่ผ่าน`
+
+## 4.6. เสนอไอเดียวิจัยต่อ
+ท้ายงาน เสนอไอเดีย 1–3 ข้อจากสิ่งที่เพิ่งอ่าน แต่ละข้อมีคำถามวิจัย ที่มา (claim ไหน) และทำไมน่าสนใจ แล้ว **ถามผู้ใช้ก่อน** ว่าจะเก็บข้อไหน
+ข้อที่เก็บเขียนเป็น `hypotheses/H-xxx.md` จาก `templates/Hypothesis.md` ด้วย `status: idea` (id ถัดไป) ใส่ `source_papers` หรือลิงก์เอกสาร
+และหัวข้อ "ขั้นต่อไป" เป็น checklist `- [ ]` ยังไม่ต้องเติม signal หรือ kill criteria (เติมตอนจดสมมติฐานก่อนทดสอบ)
+
 ## 5. ตรวจ
 - `python scripts/wiki_lint.py` ต้อง PASS
 - สุ่ม 3 claim ที่มีตัวเลขใน source note และ 3 ข้อที่เฉพาะที่สุดในบทความ แล้ว grep ตัวเลขนั้นใน `.source.txt` ให้เจอใน locator ที่อ้าง รายงานผลให้ผู้ใช้
