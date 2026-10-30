@@ -17,13 +17,19 @@ skill นี้ **หาและเก็บ** เท่านั้น ไม�
 - ไม่ใช่ → ลองหาใน SEC (ข้อ 2B) ถ้าไม่เจอให้ถามผู้ใช้ว่าเป็นตลาดไหน
 
 ## 2A. หุ้นไทย
-เว็บ SET และ ก.ล.ต. โหลดเนื้อหาด้วย JavaScript และบล็อก API (`set.or.th/api` ตอบ 403) จึงดึงไฟล์อัตโนมัติไม่ได้ ให้ทำแบบนี้:
-1. เปิดหน้าข้อมูลบริษัท `https://www.set.or.th/th/market/product/stock/quote/<TICKER>/company-profile/information`
-   และหน้าข่าว `.../quote/<TICKER>/news` หา 56-1 One Report ฉบับล่าสุด · MD&A และงบรายไตรมาสล่าสุด 1–2 งวด
-2. หาเว็บนักลงทุนสัมพันธ์ของบริษัทจากหน้าข้อมูลบริษัท (ช่องเว็บไซต์) ส่วนใหญ่มีหน้า "เอกสารเผยแพร่" ที่โหลด PDF ตรงได้
-   ลอง `curl -sIL <url>` ถ้าได้ 200 และ `content-type: application/pdf` ถือว่าดึงได้
-3. คลิป Opportunity Day: ค้นใน YouTube ช่อง SET (`"<TICKER> Opportunity Day"`) แล้วทำตามข้อ 2C
-4. ไฟล์ที่ดึงตรงไม่ได้ ให้ส่งลิงก์ให้ผู้ใช้เปิดในเบราว์เซอร์ แล้วบันทึกเป็นชื่อไฟล์ตามข้อ 4
+แหล่งหลักคือ **เว็บนักลงทุนสัมพันธ์ (IR) ของบริษัท** ซึ่งโหลด PDF ตรงได้ ส่วน SET ใช้หาว่าเว็บ IR อยู่ไหนและเทียบว่าครบไหม
+1. หาเว็บ IR: ช่องเว็บไซต์ในหน้า `https://www.set.or.th/th/market/product/stock/quote/<TICKER>/company-profile/information`
+   หรือค้นเว็บ `"<ชื่อบริษัท> investor relations"` แล้วลอง path ที่พบบ่อย `/en/ir` · `/en/investor-relations` · `/th/investor`
+2. ดึงหน้า IR แล้วกวาดลิงก์ PDF: `curl -sL -A "Mozilla/5.0" <หน้า IR> | grep -o 'href="[^"]*\.pdf"' | sort -u`
+   ลิงก์แบบ `../imgadmins/...` ให้ต่อกับโดเมนของเว็บ · ตามหน้าย่อยที่ชื่อเกี่ยวข้อง (annual report / 56-1 · financial statements · MD&A · SET news · presentation)
+   แล้วจัดชนิดจากชื่อไฟล์และข้อความลิงก์ เช่น DELTA: `/en/pdf/ir/annual-report-2025.pdf` (56-1) ·
+   `imgadmins/investor/mda_pdf/DELTA_mda_en<วันที่>.pdf` (MD&A) · `imgadmins/investor/financial_pdf/DELTA_financial_2026Q3_en.pdf` (งบ)
+3. ตรวจทุกลิงก์ด้วย `curl -sIL -A "Mozilla/5.0" <url>` ต้องได้ 200 และ `content-type: application/pdf`
+4. ข่าวที่บริษัทส่ง SET: เว็บ IR ส่วนใหญ่มีสำเนา (`setnews_pdf/`) ให้ใช้จากเว็บ IR · หน้าข่าวของ set.or.th โหลดด้วย JavaScript และ API ตอบ 403
+   ถ้าต้องใช้ฉบับจาก SET ให้ส่งลิงก์ `https://www.set.or.th/th/market/product/stock/quote/<TICKER>/news` ให้ผู้ใช้โหลดเอง
+5. เลือก 56-1 ฉบับล่าสุด · MD&A และงบรายไตรมาสล่าสุด 1–2 งวด · presentation ล่าสุด ถ้ามีทั้งไทยและอังกฤษให้รายงานทั้งคู่
+6. คลิป Opportunity Day: ค้นใน YouTube (`"<TICKER> Opportunity Day"`) แล้วทำตามข้อ 2C
+7. ไฟล์ที่ดึงตรงไม่ได้ ให้ส่งลิงก์ให้ผู้ใช้เปิดในเบราว์เซอร์ แล้วบันทึกเป็นชื่อไฟล์ตามข้อ 4
 
 ## 2B. หุ้น US (SEC EDGAR)
 SEC ต้องการ User-Agent ที่มีชื่อและอีเมล ใช้ `UA="wiki-research-starter <อีเมลของผู้ใช้>"` (ถามผู้ใช้ถ้ายังไม่รู้)
