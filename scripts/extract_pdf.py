@@ -28,7 +28,7 @@ MIN_TEXT_CHARS = 80  # pages below this are candidates for a human/vision look, 
 
 
 def download(url: str, dest: Path) -> None:
-    req = urllib.request.Request(url, headers={"User-Agent": "alpha-research-wiki/1.0"})
+    req = urllib.request.Request(url, headers={"User-Agent": "wiki-research-starter/1.0"})
     with urllib.request.urlopen(req, timeout=60) as resp:
         dest.write_bytes(resp.read())
 

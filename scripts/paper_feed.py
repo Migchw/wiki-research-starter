@@ -22,7 +22,7 @@ from pathlib import Path
 VAULT = Path(__file__).resolve().parent.parent
 SITE = "https://www.ml-quant.com"
 OUT = VAULT / "dashboard" / "data" / "paper-feed.json"
-UA = "alpha-research-wiki paper_feed.py (+https://github.com/Migchw/alpha-research-wiki)"
+UA = "wiki-research-starter paper_feed.py (+https://github.com/Migchw/wiki-research-starter)"
 
 
 def get(url: str) -> str:
