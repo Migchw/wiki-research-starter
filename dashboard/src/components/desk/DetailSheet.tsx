@@ -29,10 +29,10 @@ export function DetailSheet({ item, related, known, onOpen, onClose, onCopy, has
   const cmd = item ? nextCommand(item) : ''
   return (
     <Sheet open={!!item} onOpenChange={(o) => { if (!o) onClose() }}>
-      <SheetContent side="right" className="w-full gap-0 overflow-y-auto p-0 sm:!max-w-[560px]">
+      <SheetContent side="center" className="gap-0 overflow-y-auto p-0">
         {item ? (
           <>
-            <SheetHeader className="gap-3 border-b p-6 pr-12">
+            <SheetHeader className="gap-3 border-b px-6 py-6 pr-12 sm:px-10 sm:pt-8">
               <div className="flex items-center gap-3"><KindLabel item={item} /><Status item={item} /></div>
               <SheetTitle className="text-[22px] leading-[1.3] font-semibold">
                 {item.kind === 'hypothesis' ? `${item.id}: ` : ''}{item.title}
@@ -56,7 +56,7 @@ export function DetailSheet({ item, related, known, onOpen, onClose, onCopy, has
               ) : null}
             </SheetHeader>
 
-            <div className="space-y-6 p-6">
+            <div className="space-y-6 px-6 py-6 sm:px-10 sm:py-8">
               {item.kind === 'hypothesis' ? (
                 <section aria-labelledby="h-next">
                   <h3 id="h-next" className="mb-2 text-[13px] font-semibold text-muted-foreground">ขั้นต่อไป</h3>
